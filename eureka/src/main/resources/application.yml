@@ -1,0 +1,15 @@
+server:
+  port: 10086 # 服务端口
+
+spring:
+  application:
+    name: eurekaserver # erueka的服务名称
+
+eureka:
+  instance:
+    hostname: eurekaserver
+    prefer-ip-address: true
+    instance-id: http://127.0.0.1:${server.port}
+  client:
+    service-url: # erueka的地址信息
+      defaultZone: http://127.0.0.1:10086/eureka

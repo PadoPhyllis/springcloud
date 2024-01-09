@@ -1,0 +1,78 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: orderservice
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/cloud_order?useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  cloud:
+    nacos:
+      discovery:
+        # nocos服务地址
+        server-addr: localhost:8848
+        # 配置集群名称，也就是机房位置，例如：HZ，杭州
+        cluster-name: HN
+        # 命名空间，填ID
+        namespace: 175844d6-8138-41b8-9b59-24aa6220918d
+        #设置为非临时实例
+#        ephemeral: false
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.padophyllis.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com.padophyllis: debug
+  pattern:
+    dateformat: MM-dd HH:mm:ss:SSS
+
+#eureka:
+#  instance:
+#    hostname: orderservice
+#    prefer-ip-address: true
+#    instance-id: http://127.0.0.1:${server.port}
+#  client:
+    # erueka的地址信息
+#    service-url:
+#      defaultZone: http://127.0.0.1:10086/eureka
+
+userservice:
+  ribbon:
+    # 负载均衡规则局部定义
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+    NFLoadBalancerRuleClassName: com.alibaba.cloud.nacos.ribbon.NacosRule
+
+#ribbon:
+#  eager-load:
+    # 开启饥饿加载
+#    enabled: true
+    #指定饥饿加载的服务名称
+#    clients:
+#      - userservice
+
+feign:
+  client:
+    config:
+      # 全局
+      default:
+        # 日志级别
+        loggerLevel: none
+  httpclient:
+    # 支持httpclient的开关
+    enabled: true
+    # 最大连接数
+    max-connections: 200
+    # 单个路径的最大连接数
+    max-connections-per-route: 50
+      # 局部
+      userservice:
+      # 日志级别
+#        loggerLevel: none basic headers full

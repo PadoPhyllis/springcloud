@@ -1,0 +1,43 @@
+server:
+  port: 8091
+
+spring:
+  application:
+    name: userservice
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/cloud_user?useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos:8848
+        cluster-name: HN
+        namespace: 175844d6-8138-41b8-9b59-24aa6220918d
+
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.padophyllis.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com.padophyllis: debug
+  pattern:
+    dateformat: MM-dd HH:mm:ss:SSS
+
+userservice:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.alibaba.cloud.nacos.ribbon.NacosRule
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: none
+  httpclient:
+    enabled: true
+    max-connections: 200
+    max-connections-per-route: 50
